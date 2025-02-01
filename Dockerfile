@@ -28,5 +28,8 @@ COPY --from=build /app/build /usr/share/nginx/html
 # Nginxのデフォルト設定を無効化（オプション）
 EXPOSE 80
 
+# カスタムNginx設定を適用
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
 # Nginxを起動
 CMD ["nginx", "-g", "daemon off;"]
