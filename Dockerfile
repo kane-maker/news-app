@@ -1,35 +1,25 @@
-# ベースイメージを指定
+# Node.js 環境をセットアップ（React のビルド用）
 FROM node:18-alpine AS build
 
-# 作業ディレクトリを設定
 WORKDIR /app
 
-# package.jsonとpackage-lock.jsonをコピー
-COPY package*.json ./
-
 # 依存関係をインストール
+COPY package*.json ./
 RUN npm install
 
-# Babel のプラグインをインストール
+# Babel プラグインのインストール（必要なら）
 RUN npm install --save-dev @babel/plugin-proposal-private-property-in-object
 
-# アプリケーションコードをコピー
+# React アプリをビルド
 COPY . .
-
-# Reactアプリをビルド
 RUN npm run build
 
-# 軽量なNginxイメージを使用
+# 軽量な Nginx イメージを使用（React の公開用）
 FROM nginx:1.25-alpine
 
-# ビルド成果物をNginxの公開ディレクトリにコピー
+# ビルド成果物を Nginx の公開ディレクトリにコピー
 COPY --from=build /app/build /usr/share/nginx/html
 
-# Nginxのデフォルト設定を無効化（オプション）
+# Nginx をデフォルト設定で起動
 EXPOSE 80
-
-# カスタムNginx設定を適用
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-
-# Nginxを起動
 CMD ["nginx", "-g", "daemon off;"]
