@@ -1,33 +1,31 @@
-import React from 'react';
-import { useAuth0 } from '@auth0/auth0-react';
-import NewsTabs from './components/NewsTabs';
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import DMMSearch from "./components/DMMSearch";
+import ProductList from "./components/ProductList";
+import ProductPage from "./components/ProductPage";
+import AdMaxSidebar from "./components/AdMaxSidebar"; // 広告コンポーネント
 
-function App() {
-  const { loginWithRedirect, logout, isAuthenticated, user } = useAuth0();
+const App = () => {
+    return (
+        <Router>
+            <div style={{ display: "flex" }}>
+                {/* メインコンテンツ */}
+                <div style={{ flex: 1 }}>
+                    <Routes>
+                        <Route path="/" element={<DMMSearch />} />
+                        <Route path="/productlist" element={<ProductList />} />
+                        <Route path="/product" element={<ProductPage />} />
+                    </Routes>
+                </div>
 
-  return (
-    <div className="App">
-      <h1>ポジティブニュースアプリ</h1>
-      {!isAuthenticated ? (
-        // ログイン画面
-        <div style={{ textAlign: 'center', marginTop: '20px' }}>
-          <h2>ログインしてください</h2>
-          <button onClick={() => loginWithRedirect()}>ログイン</button>
-        </div>
-      ) : (
-        // ニュースタブとログアウトボタン
-        <div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <h3>ようこそ, {user.name} さん</h3>
-            <button onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}>
-              ログアウト
-            </button>
-          </div>
-          <NewsTabs />
-        </div>
-      )}
-    </div>
-  );
-}
+                {/* 右サイド（PC用）or 下部（スマホ用）の広告 */}
+                <AdMaxSidebar 
+                    pcAdId="ba281c3fd80c3516aea3a150ed28a334" 
+                    mobileAdId="8ff1b1ebeb541e700b8323afb1d20756" // スマホ用ID
+                />
+            </div>
+        </Router>
+    );
+};
 
 export default App;

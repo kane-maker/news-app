@@ -20,6 +20,11 @@ FROM nginx:1.25-alpine
 # ビルド成果物を Nginx の公開ディレクトリにコピー
 COPY --from=build /app/build /usr/share/nginx/html
 
-# Nginx をデフォルト設定で起動
-EXPOSE 80
+# 設定ファイルを置き換えて適切な設定にする
+COPY nginx.conf /etc/nginx/nginx.conf
+
+# コンテナのポートを公開
+EXPOSE 80 443
+
+# Nginxを起動
 CMD ["nginx", "-g", "daemon off;"]
