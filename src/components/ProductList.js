@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Card, CardMedia, CardContent, Typography, Grid, Breadcrumbs, Link } from '@mui/material';
-import AdmaxAd from './AdmaxAd'; // Correct import statement
 
 const ProductList = () => {
   const navigate = useNavigate();

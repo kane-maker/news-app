@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { TextField, Button, Card, CardMedia, CardContent, Typography, Grid, Breadcrumbs } from "@mui/material";
-import AdmaxAd from "./AdmaxAd"; // 広告コンポーネントをインポート
 
 const DMMSearch = () => {
     const [keyword, setKeyword] = useState("");
